@@ -31,6 +31,8 @@ class Block:
 class Game:
     def __init__(self):
         pyxel.init(SCREEN_WIDTH, SCREEN_HEIGHT, title="Block Shredder", fps=60)
+        self.score = 0  # Initialize score
+        self.win_message = "" # Initialize win message here
         self.load_level(LEVEL_1_BLOCKS)
         pyxel.run(self.update, self.draw)
 
@@ -39,7 +41,6 @@ class Game:
         self.blocks = [Block(**data) for data in level_block_data]
         self.board, self.exits = self.create_board_from_blocks(self.blocks)
         self.selected_block = self.blocks[0] if self.blocks else None
-        self.win_message = ""
 
     def set_color_palette(self):
         pyxel.colors[C_WALL] = 0x495057; pyxel.colors[C_FLOOR] = 0xDEE2E6
@@ -171,17 +172,22 @@ class Game:
         for block in self.blocks:
             if block.state == "shredding":
                 block.shred_progress += 0.5
-                if block.shred_progress >= TILE_SIZE: block.state = "done"
+                if block.shred_progress >= TILE_SIZE:
+                    if block.state != "done": # Ensure score is added only once
+                        self.score += 1
+                    block.state = "done"
 
     def check_win_condition(self):
         if self.blocks and all(b.state == "done" for b in self.blocks):
             self.win_message = "STAGE CLEAR! (R to Restart)"
+            # Do not reset score here, it should persist across levels or be reset manually
 
     def draw(self):
         pyxel.cls(C_BLACK)
         self.draw_board()
         self.draw_blocks()
         self.draw_cursor()
+        pyxel.text(4, 4, f"SCORE: {self.score}", C_BLACK) # Display score
         if self.win_message:
             pyxel.text(SCREEN_WIDTH/2 - 48, SCREEN_HEIGHT/2, self.win_message, C_BLACK) # Changed color to C_BLACK
 
