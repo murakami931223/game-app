@@ -1,8 +1,5 @@
 # --- Level Definitions ---
 
-# Import color constants if you want to use them directly here
-# from main import C_RED_BLOCK, C_BLUE_BLOCK, ...
-
 # For simplicity, we use the color index numbers directly.
 # 8:Red, 9:Blue, 10:Yellow, 11:Green
 
@@ -13,5 +10,9 @@ LEVEL_1_BLOCKS = [
     {'x': 6, 'y': 8, 'shape': [(0, 0), (1, 0), (0, 1)], 'color': 11} # Green L-shape
 ]
 
-# You can add more levels here in the future
-# LEVEL_2_BLOCKS = [ ... ]
+LEVEL_2_BLOCKS = [
+    {'x': 3, 'y': 3, 'shape': [(0, 0), (1, 0), (2, 0)], 'color': 8}, # Red 1x3
+    {'x': 8, 'y': 5, 'shape': [(0, 0), (0, 1), (0, 2)], 'color': 9}, # Blue 3x1
+    {'x': 5, 'y': 10, 'shape': [(0, 0), (1, 0), (0, 1)], 'color': 10}, # Yellow L-shape
+    {'x': 10, 'y': 8, 'shape': [(0, 0), (1, 0), (2, 0), (3, 0)], 'color': 11} # Green 1x4
+]
